@@ -20,7 +20,7 @@ def createFunc(rank, scope):
     for i in range(len(scope)):
         for j in range(len(rank)):
                 y[i] += rank[j] * (scope[i] ** j)
-    return y;
+    return y
 
 scope = numpy.arange(1, 15, .1)
 x2 = [1, 15]
