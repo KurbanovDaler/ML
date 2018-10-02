@@ -19,7 +19,7 @@ words = list(filter(None, words))
 
 unique_words = numpy.unique(words) # Getting a list of unique words
 unique_words_count = len(unique_words)#Counting how may words we got
-indeces = list(range(0, unique_words_count))#Assigning indeces
+indices = list(range(0, unique_words_count))#Assigning indeces
 dictionary = dict(zip(indeces, unique_words))#Creating dictionary
 result = []
 
