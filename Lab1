@@ -1,0 +1,50 @@
+import re
+import numpy
+#Function that calculates cosine distance between two points(vectors)
+def cosineDistance(x, y):
+    dotProduct = 0
+    xLen = 0
+    yLen = 0
+    for i in range(len(y)): # Formula for this distance is 1 - dotProduct(x, y) / xLen * yLen, where xLen and yLen are number of occurences^2
+        dotProduct += x[i] * y[i]
+        xLen += x[i] * x[i] 
+        yLen += y[i] * y[i]
+    return 1 - (dotProduct / (numpy.sqrt(xLen) * numpy.sqrt(yLen)))
+
+
+file = open("sentences.txt", "r")
+sentences =[] # An array of sentences
+words = re.split('[^a-z]', file.read().lower())
+words = list(filter(None, words))
+
+unique_words = numpy.unique(words) # Getting a list of unique words
+unique_words_count = len(unique_words)#Counting how may words we got
+indeces = list(range(0, unique_words_count))#Assigning indeces
+dictionary = dict(zip(indeces, unique_words))#Creating dictionary
+result = []
+
+# Debug Section
+# print(words)
+# print(unique_words)
+# print(keys)
+# print(unique_words_count) 
+
+file.seek(0) #We've read from a file once already, so the reading index is at the end of a file now, we need to move it to the beginning
+
+for line in file:   
+    line = re.split('[^a-z]', line.lower()) #Splitting, self-explanatory 
+    line = list(filter(None, line)) # Remove all empty strings    
+    #print(line) # Debug
+    sentences.append(line)    
+        
+sentences_count = len(sentences)
+matrix = numpy.zeros(shape=(sentences_count, unique_words_count))
+
+for i in range(sentences_count):
+    for j in range (unique_words_count):
+        matrix[i][j] = sentences[i].count(dictionary[j])
+
+for i in range(sentences_count):
+    result.append(cosineDistance(matrix[0], matrix[i]))
+
+print(result)
